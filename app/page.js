@@ -322,7 +322,7 @@ export default function LinkedInAutomationDashboard() {
           </h2>
           <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
             This dashboard is powered by n8n automation workflows. Every post, every metric, every insight - fully automated.
-            Want something similar for your business? Let's build your automation system together.
+            Want something similar for your business? Let&apos;s build your automation system together.
           </p>
           <div className="flex justify-center space-x-4">
             <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100">
