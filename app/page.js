@@ -25,31 +25,45 @@ export default function LinkedInAutomationDashboard() {
     }
   };
 
-  const generateContent = async () => {
-    setGenerating(true);
-    try {
-      const response = await fetch('/api/generate-content', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ count: 7 })
-      });
-      const { ideas } = await response.json();
+ // In your page.js, replace the generateContent function with this:
 
-      // Add to sheets
-      await fetch('/api/sheets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: ideas })
-      });
+const generateContent = async () => {
+  setGenerating(true);
+  try {
+    const response = await fetch('/api/generate-content', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ count: 7 })
+    });
+    const data = await response.json();
 
-      // Refresh data
-      fetchSheetData();
-    } catch (error) {
-      console.error('Error generating content:', error);
-    } finally {
-      setGenerating(false);
+    if (data.ideas) {
+      // Update the local state immediately with the new content
+      setSheetData(prevData => ({
+        ...prevData,
+        totalPosts: (prevData?.totalPosts || 0) + data.ideas.length,
+        pendingPosts: (prevData?.pendingPosts || 0) + data.ideas.length,
+        posts: [
+          ...data.ideas.map(idea => ({
+            postDescription: idea.postDescription,
+            pillar: idea.pillar,
+            status: 'Pending',
+            scheduledFor: idea.scheduledFor,
+            cta: idea.cta,
+            hashtags: idea.hashtags
+          })),
+          ...(prevData?.posts || [])
+        ]
+      }));
     }
-  };
+
+    console.log('Generated content:', data);
+  } catch (error) {
+    console.error('Error generating content:', error);
+  } finally {
+    setGenerating(false);
+  }
+};
 
   if (loading) {
     return (
@@ -336,5 +350,6 @@ export default function LinkedInAutomationDashboard() {
       </div>
     </div>
   );
-}/ /   E S L i n t   f i x   a p p l i e d  
- 
+}/ /   E S L i n t   f i x   a p p l i e d 
+ 
+ 
