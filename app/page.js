@@ -84,30 +84,53 @@ const generateContent = async () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                LinkedIn Automation Engine
+                LinkedIn Executive Suite
               </h1>
               <p className="text-gray-600">
-                Professional content automation system powered by n8n
+                AI-powered content intelligence for C-suite professionals
               </p>
             </div>
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-sm text-gray-600">Live Data Connected</span>
+                <span className="text-sm text-gray-600">Executive AI Active</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Demo Mode</span>
+                <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium">Executive Preview</span>
               </div>
               <button
                 onClick={generateContent}
                 disabled={generating}
-                className="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50"
+                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
               >
                 <Zap size={16} />
-                <span>{generating ? 'Generating...' : 'Generate Content'}</span>
+                <span>{generating ? 'Generating Executive Content...' : 'Generate Executive Content'}</span>
               </button>
             </div>
           </div>
+        </div>
+
+        {/* Navigation */}
+        <div className="flex space-x-1 mb-8 bg-white rounded-lg p-1 shadow-sm">
+          {[
+            { id: 'dashboard', label: 'Executive Dashboard', icon: BarChart3 },
+            { id: 'content', label: 'Content Strategy', icon: Lightbulb },
+            { id: 'calendar', label: 'Executive Calendar', icon: Calendar },
+            { id: 'analytics', label: 'Performance Intelligence', icon: TrendingUp }
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-md font-medium transition-colors ${
+                activeTab === tab.id
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              <tab.icon size={16} />
+              <span>{tab.label}</span>
+            </button>
+          ))}
         </div>
 
         {/* Navigation */}
@@ -138,40 +161,70 @@ const generateContent = async () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Metrics */}
             <div className="lg:col-span-2 grid grid-cols-2 gap-6">
-              <div className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="bg-white rounded-xl p-6 shadow-sm border-l-4 border-blue-500">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-semibold text-gray-900">Total Posts</h3>
+                  <h3 className="font-semibold text-gray-900">Content Portfolio</h3>
                   <TrendingUp className="text-green-500" size={20} />
                 </div>
                 <div className="text-3xl font-bold text-gray-900">{sheetData.totalPosts}</div>
-                <div className="text-sm text-green-600">Connected to Google Sheets</div>
+                <div className="text-sm text-green-600">Strategic content pieces</div>
               </div>
 
-              <div className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="bg-white rounded-xl p-6 shadow-sm border-l-4 border-yellow-500">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-semibold text-gray-900">Pending Posts</h3>
+                  <h3 className="font-semibold text-gray-900">Executive Queue</h3>
                   <Eye className="text-blue-500" size={20} />
                 </div>
                 <div className="text-3xl font-bold text-gray-900">{sheetData.pendingPosts}</div>
-                <div className="text-sm text-blue-600">Ready for processing</div>
+                <div className="text-sm text-blue-600">Awaiting executive approval</div>
               </div>
 
-              <div className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="bg-white rounded-xl p-6 shadow-sm border-l-4 border-purple-500">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-semibold text-gray-900">Scheduled Posts</h3>
+                  <h3 className="font-semibold text-gray-900">Scheduled Presence</h3>
                   <Calendar className="text-purple-500" size={20} />
                 </div>
                 <div className="text-3xl font-bold text-gray-900">{sheetData.scheduledPosts}</div>
-                <div className="text-sm text-purple-600">Automated posting</div>
+                <div className="text-sm text-purple-600">Auto-deployment active</div>
               </div>
 
-              <div className="bg-white rounded-xl p-6 shadow-sm">
+              <div className="bg-white rounded-xl p-6 shadow-sm border-l-4 border-green-500">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-semibold text-gray-900">Automation Status</h3>
+                  <h3 className="font-semibold text-gray-900">AI Intelligence</h3>
                   <Target className="text-orange-500" size={20} />
                 </div>
-                <div className="text-3xl font-bold text-gray-900">Active</div>
-                <div className="text-sm text-orange-600">n8n workflow running</div>
+                <div className="text-3xl font-bold text-gray-900">Executive</div>
+                <div className="text-sm text-orange-600">AI strategy engine running</div>
+              </div>
+            </div>
+
+            {/* Executive Content Preview */}
+            <div className="bg-white rounded-xl p-6 shadow-sm">
+              <h3 className="font-semibold text-gray-900 mb-4">Executive Content Pipeline</h3>
+              <div className="space-y-4">
+                {sheetData.posts.slice(0, 5).map((post, index) => (
+                  <div key={index} className="border-l-4 border-blue-500 pl-4 bg-gray-50 p-3 rounded-r">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-gray-600">
+                        {post.scheduledFor || 'Pending executive approval'}
+                      </span>
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        post.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                        post.status === 'Scheduled' ? 'bg-blue-100 text-blue-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}>
+                        {post.status === 'Pending' ? 'Executive Review' : post.status}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-900 mb-2 leading-relaxed">
+                      {post.postDescription ? post.postDescription.substring(0, 120) + '...' : 'Executive content pending'}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-blue-600 font-medium">{post.cta}</span>
+                      <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded">{post.pillar}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -332,19 +385,22 @@ const generateContent = async () => {
         {/* Footer CTA */}
         <div className="mt-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 text-center text-white">
           <h2 className="text-2xl font-bold mb-4">
-            Ready to Automate Your LinkedIn Like This?
+            Ready for Executive-Level LinkedIn Presence?
           </h2>
           <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-            This dashboard is powered by n8n automation workflows. Every post, every metric, every insight - fully automated.
-            Want something similar for your business? Let&apos;s build your automation system together.
+            The LinkedIn Executive Suite delivers AI-powered content strategy, automated posting, and performance analytics. 
+            Built for C-suite professionals who demand results without the time investment.
           </p>
           <div className="flex justify-center space-x-4">
-            <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100">
-              View My Automation Services
+            <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+              Schedule Executive Consultation
             </button>
-            <button className="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600">
-              Schedule Free Consultation
+            <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+              View Executive Pricing
             </button>
+          </div>
+          <div className="mt-6 text-sm text-blue-200">
+            Starting at $5,000 setup + $1,500/month for complete executive LinkedIn management
           </div>
         </div>
       </div>
